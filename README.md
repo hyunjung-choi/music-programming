@@ -1,1 +1,10 @@
-# music-programming
+<h1 align="center">🎵 music-programming</h1>
+
+- 2020년 2학기에 수강한 **'음악 프로그래밍'** 과목 Repository입니다.
+
+## 수업 목표
+
+- ChucK 프로그래밍 언어 프로그램 구조의 구문과 실행 의미 습득
+- ChucK 프로그래밍 환경에서 코딩 작성 능력 배양
+- 다양한 실물 악기 라이브러리 및 합주 창작 능력 함양
+- MIDI, OSC를 활용하여 연주 소프트웨어 창작을 위한 능력 습득
