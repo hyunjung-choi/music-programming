@@ -1,0 +1,11 @@
+Machine.add(me.dir() + "BPM.ck");
+Machine.add(me.dir() + "player.ck");
+Machine.add(me.dir() + "score.ck");
+BPM bpm;
+bpm.wholeNote * 2 => now;
+Machine.add(me.dir() + "score.ck");
+bpm.wholeNote * 2 => now;
+Machine.add(me.dir() + "score.ck");
+bpm.wholeNote * 2 => now;
+Machine.add(me.dir() + "score.ck");
+bpm.wholeNote * 8 => now;
