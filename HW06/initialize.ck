@@ -1,0 +1,1 @@
+Machine.add(me.dir() + "score.ck");
