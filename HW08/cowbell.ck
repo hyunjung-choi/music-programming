@@ -11,25 +11,22 @@ TheEvent e;
 BPM tempo;
 
 SndBuf snd => dac;
-me.dir(-1)+"/audio/snare_01.wav" => snd.read;
+me.dir(-1)+"/audio/cowbell_01.wav" => snd.read;
 snd.samples() => snd.pos;
-0.5 => float vol;
+0.3 => float vol;
 vol => snd.gain;
 
 spork ~ play(snd, e, vol);
 
 while(true){
-    tempo.quarterNote => dur quarter;
+    tempo.eighthNote => dur eighth;
 
     e.signal();
     
-    quarter => now;
-    0 => snd.pos;
-    2.0 * quarter => now;
-    
-    0 => snd.pos;
-    quarter / 4.0 => now;
-    
-    0 => snd.pos;
-    3.0*quarter/4.0 => now;
+    for(0 => int beat; beat < 8; beat++){
+        if(beat == 7){
+            0 => snd.pos;
+        }
+        eighth => now;
+    }
 }

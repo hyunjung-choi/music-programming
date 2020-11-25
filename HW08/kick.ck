@@ -11,9 +11,9 @@ TheEvent e;
 BPM tempo;
 
 SndBuf snd => dac;
-me.dir(-1)+"/audio/snare_01.wav" => snd.read;
+me.dir(-1)+"/audio/kick_04.wav" => snd.read;
 snd.samples() => snd.pos;
-0.5 => float vol;
+1 => float vol;
 vol => snd.gain;
 
 spork ~ play(snd, e, vol);
@@ -23,13 +23,8 @@ while(true){
 
     e.signal();
     
-    quarter => now;
-    0 => snd.pos;
-    2.0 * quarter => now;
-    
-    0 => snd.pos;
-    quarter / 4.0 => now;
-    
-    0 => snd.pos;
-    3.0*quarter/4.0 => now;
+    for(0 => int beat; beat < 4; beat++){
+        0 => snd.pos;
+        quarter => now;
+    }
 }
