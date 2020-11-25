@@ -1,26 +1,28 @@
+// ID : 2017099589
+// Name : Choi Hyun-Jung
+
 class TheEvent extends Event{
-    dur tempo;
     float velocity;
 }
 
-fun void play(SndBuf snd, TheEvent e, float vol, string s){
+fun void play(SndBuf snd, TheEvent e, float vol){
     e => now;
     vol => snd.gain;
 }
 
 TheEvent e;
 BPM tempo;
-0.3 => float vol;
 
 SndBuf snd => dac;
 me.dir(-1)+"/audio/snare_01.wav" => snd.read;
 snd.samples() => snd.pos;
+0.5 => float vol;
 vol => snd.gain;
-spork ~ play(snd, e, vol, "snare_01");
+
+spork ~ play(snd, e, vol);
 
 while(true){
-    tempo.quarterNote => e.tempo;
-    e.tempo => dur quarter;
+    tempo.quarterNote => dur quarter;
 
     e.signal();
     
