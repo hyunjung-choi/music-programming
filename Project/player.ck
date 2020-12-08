@@ -16,15 +16,10 @@ public class Player{
     }
     
    fun void playNote(StkInstrument instrument, int note, dur duration, string mode){
-       note => Std.mtof => instrument.freq;
+       note - 12 => Std.mtof => instrument.freq;
        
        if(note != -1){
-           if(mode == "melody"){
-               note - 12 => Std.mtof => instrument.freq;
-               0.5 => instrument.noteOn;
-           }
-           else if(mode == "intro"){
-               note - 12 => Std.mtof => instrument.freq;
+           if(mode == "intro"){
                0.5 => instrument.noteOn;
            }
            else if(mode == "outro"){
@@ -32,7 +27,6 @@ public class Player{
                0.5 => instrument.noteOn;
            }
            else{
-               note - 12 => Std.mtof => instrument.freq;
                0.3 => instrument.noteOn;
            }
        }

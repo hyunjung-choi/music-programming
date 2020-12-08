@@ -1,3 +1,28 @@
+MidiOut mout;
+
+// MIDI Port (Window > Device Browser > MIDI > Output)
+2 => int port;
+
+// try to open that port, fail gracefully
+if( !mout.open(port) )
+{
+    <<< "Error: MIDI port did not open on port: ", port >>>;
+    me.exit();
+}
+
+// Make a MIDI msg holder for sending
+MidiMsg msg;
+
+// utility function to send MIDI out notes
+fun void MIDInote(int onoff, int note, int velocity)
+{
+    if (onoff == 0) 128 => msg.data1;
+    else 144 => msg.data1;
+    note => msg.data2;
+    velocity => msg.data3;
+    mout.send(msg);
+}
+
 0.2::second => dur en; // eighth notes (1/8)
 en * 2 => dur qn; // quarter notes (1/4)
 qn * 2 => dur hn; // half notes (1/2)
@@ -132,7 +157,6 @@ en, qn, en, en, dqn,
 qn, en, en, en, en, en, en,
 en, en, qn, qn, en, en,
 qn, en, en, en, en, en, en,
-//en, en, qn, qn, qn,
 whole,
 
 qn, en, en, en, en, en, en,
@@ -142,148 +166,10 @@ qn, qn, en, en, en, en
 ]
 @=> dur melodyDur[];
 
-[
-72, 72, 69, 67, 69, -1, 72, 
--1, 72, 69, 67, 67, -1, 69,
-70, 70, 67, 64, 67, -1, 70, 
--1, 70, -1, 72,
-
-72, 72, 69, 67, 69, -1, 72, 
--1, 72, 69, 67, 67, -1, 69,
-70, 70, 67, 64, 67, -1, 70,
--1, 70, 72, 74, -1,
-
-60, 67, 67, 64, 65,
--1,
-64, 64, 62, 64,
--1, 65, 64, -1, 69, -1, 67,
-
-67, 67, -1, -1,
--1,
-60, -1, 62, 58,
--1,
-
-72, 72, 69, 67, 69, -1, 72, 
--1, 72, 69, 67, 67, -1, 69,
-70, 70, 67, -1, 67, -1, 70,
--1, 70, -1, 72,
-
-72, 72, 69, 67, 69, -1, 72, 
--1, 72, 69, 67, 67, -1, 69,
-70, 70, 67, 64, 67, -1, 70,
--1, 70, 72, 74, -1,
-
-60, 67, 67, 64, 65,
--1,
-64, 64, 62, 64,
--1, 65, 64, -1, 69, -1, 67,
-
-67, 67, -1, -1,
--1,
-60, -1, 62, 58,
--1,
-
-72, 72, 69, 67, 69, -1, 72, 
--1, 72, 69, 67, -1, -1, -1,
-70, 70, 74, -1, 74, -1, 70,
--1, 70, -1, 72,
-
-72, 72, 69, 69, 69, -1, 72,
--1, 72, 69, 67, 67, -1, -1, -1,
-62, 62, 62, -1, 67, -1, 65,
--1, 65, 67, 69, -1, 76,
-
-76, -1, -1, -1,
--1, -1, -1,
-
-65, 69,
-65, 69, -1,
-63, 65,
-//-1, 63, 65,
--1, 88, 89, 91, -1,
-
-65, 69,
-65, 69, -1,
-63, 65,
--1, 63, 65
-]
-@=> int harmony[];
-
-[
-qn, en, en, en, en, en, en, 
-en, en, en, en, qn, en, en, 
-qn, en, en, en, en, en, en, 
-qn, qn, en, dqn,
-
-qn, en, en, en, en, en, en, 
-en, en, en, en, qn, en, en, 
-qn, en, en, en, en, en, en, 
-en, en, qn, qn, qn,
-
-qn, qn, en, qn, en,
-whole,
-hn, en, qn, en,
-qn, en, en, en, en, en, en,
-
-hn, en, qn, en, 
-whole,
-hn, en, qn, en,
-whole,
-
-qn, en, en, en, en, en, en, 
-en, en, en, en, qn, en, en,
-qn, en, en, en, en, en, en, 
-qn, qn, en, dqn,
-
-qn, en, en, en, en, en, en, 
-en, en, en, en, qn, en, en, 
-qn, en, en, en, en, en, en, 
-en, en, qn, qn, qn,
-
-qn, qn, en, qn, en,
-whole,
-hn, en, qn, en,
-qn, en, en, en, en, en, en,
-
-hn, en, qn, en, 
-whole,
-hn, en, qn, en,
-whole,
-
-qn, en, en, en, en, en, en,
-en, en, en, en, qn, en, en,
-qn, en, en, en, en, en, en,
-qn, qn, en, dqn,
-
-qn, en, en, en, en, en, en,
-en, en, en, en, en, en, en, en,
-qn, en, en, en, en, en, en,
-en, en, qn, en, qn, en,
-
-qn, qn, qn, qn,
-whole, whole, whole,
-
-hn, hn,
-dqn, en, hn,
-hn, hn,
-//en, dqn, hn,
-en, en, qn, qn, qn,
-
-hn, hn,
-dqn, en, hn,
-hn, hn,
-en, dqn, hn
-]
-@=> dur harmonyDur[];
-
-//Wurley
-PercFlut b => dac;
-PercFlut f => dac;
-
-
-Player p;
-
-spork ~ p.play(b, melody, melodyDur, "melody");
-spork ~ p.play(f, harmony, harmonyDur, "");
-
-whole * 4 * 13 => now;
+// Piccolo
+for (0 => int i; i < melody.cap(); i++){
+    MIDInote(1, melody[i], 100);
+    melodyDur[i] - tail => now;
+    MIDInote(0, melody[i], 100);
+    tail => now;
+}
